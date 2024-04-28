@@ -22,5 +22,6 @@
         public function getTitulo(){
             return $this->titulo;
         }
+
     }
 ?>
