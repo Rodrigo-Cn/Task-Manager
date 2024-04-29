@@ -1,0 +1,15 @@
+{
+    "name": "rodri/projeto",
+    "autoload": {
+        "psr-4": {
+            "Rodri\\Projeto\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rodrigo-Cn",
+            "email": "rodrigo321.costa@gmail.com"
+        }
+    ],
+    "require": {}
+}

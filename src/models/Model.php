@@ -1,5 +1,7 @@
 <?php
 
+    require_once(realpath(__FILE__).'/../config/config.php');
+
     class Model{
         protected static $tableName;
         protected static $columns = [];
@@ -26,9 +28,35 @@
             return $this->values[$key];
         }
 
-        public static function getSelect($filters = [], $column = '*'){
-            $sql = 'SELECT ' . $column . '* FROM ' . static::$tableName . static::getFilter($filters);
-            return $sql;
+        public static function get($filters = [], $column = '*'){
+            $objects = [];
+            $result = static::getResultSetFromSelect($filters, $column);
+            $class = get_called_class();
+            if($result){
+                while($row = $result->fetch_assoc()){
+                    array_push($objects, new $class($row));
+                }
+            }
+
+            return $objects;
+        }
+
+        public static function getOne($filters = [], $column = '*'){
+            $result = static::getResultSetFromSelect($filters, $column);
+            $class = get_called_class();
+            return $result ? new $class($result->fetch_assoc()) : null;
+        }
+
+        public static function getResultSetFromSelect($filters = [], $column = '*'){
+            $sql = 'SELECT ' . $column . ' FROM ' . static::$tableName . static::getFilter($filters);
+            $database = new DataBase();
+            $result = $database->getResultFromQuery($sql);
+
+            if($result->num_rows === 0){
+                return null;
+            }else{
+                return $result;
+            }
         }
 
         

@@ -1,19 +1,12 @@
 <?php   
     session_start();
-    if(isset($_POST['usuario']) && isset($_POST['senha'])){
-        if($_POST['usuario'] == "rodrigo" && $_POST['senha'] == "rodrigo"){
-            $pessoa = ["usuario"=>$_POST['usuario'],"status"=>true];
-            $_SESSION["login"] = $pessoa;
-            header('Location: home.php');
-            exit;
-        } else {
-            $erro = "Usuário ou senha incorretos";
-        }
-    } else {
-        if(isset($_GET['erro'])){
-            $erro = "Insira os dados válidos";
-        }
-    }
+    require_once(dirname(__FILE__, 2)."/src/config/config.php");
+    require_once(realpath(CONTROLLER_PATH."login.php"));
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -46,14 +39,13 @@
     <h1>Login</h1>
     <form action="" method="POST" name="usuario">
         <label for="usuario">Email:</label>
-        <input type="email" name="usuario">
+        <input type="email" name="usuario" value="<?= $email ?>">
         <br>
         <label for="senha">Senha:</label>
         <input type="password" name="senha">
         <br>
         <button>Entrar</button>
         <a href="cadastrar.php" style="color: blue;">Cadastrar</a>
-        <div style="color: red;"><?php echo isset($erro) ? $erro : ''; ?></div>
     </form>
 </body>
 </html>
